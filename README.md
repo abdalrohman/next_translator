@@ -112,18 +112,28 @@ Before you begin, ensure you have the following installed:
    - Select source and target languages from the dropdown menus
    - Enter text in the input field
    - Click "Translate" or press Ctrl+Enter to translate
+   - For longer texts, the application handles up to 5000 characters per translation
 
 2. **View Translation History**:
 
    - Click on the "History" tab to view past translations
    - Click on any history item to load it back into the translator
+   - Translation history is stored in your browser's localStorage
+   - Up to 50 most recent translations are saved automatically
+   - History persists between sessions but is limited to the current browser
 
 3. **Listen to Translation**:
 
    - Click the speaker icon on the output panel to hear the translated text
+   - Uses the browser's built-in SpeechSynthesis API
+   - Voice and accent are determined by the target language
+   - Click the speaker icon again to stop the current speech
+   - Note: Speech synthesis quality varies by browser and language
 
 4. **Switch Themes**:
    - Toggle between light and dark modes using the theme switcher in the header
+   - Your theme preference is saved between sessions
+   - Automatically respects your system's theme preference by default
 
 ## 🤝 Contributing
 
@@ -185,8 +195,29 @@ Future enhancements planned for the project:
 
 ## ⚙️ Technical Notes
 
+### API Keys and Integration
+
 - **Multiple API Keys**: When multiple Google API keys are configured, the application will randomly switch between them to distribute usage and avoid rate limits.
 - **Groq Integration**: Groq API configuration is included but not yet implemented. It's on the roadmap for future development.
+
+### Application Architecture
+
+- **Next.js App Router**: The application uses Next.js 15's App Router for routing and server components.
+- **API Routes**: Translation and language detection are handled through Next.js API routes that securely call the Gemini API.
+- **Server-Side Security**: API keys are only used server-side to prevent exposure in client-side code.
+- **Client Components**: Interactive UI elements use the "use client" directive while maintaining server components where possible.
+
+### Data Storage
+
+- **Local Storage**: User preferences and translation history are stored in the browser's localStorage.
+- **No Server Database**: This application doesn't require a database as all user data is stored locally.
+- **Persistence**: Language preferences, theme settings, and translation history persist between sessions.
+
+### Web Manifest
+
+- The application includes both `manifest.json` and `site.webmanifest` for maximum compatibility across browsers.
+- These files enable "Add to Home Screen" functionality on mobile devices.
+- Icons in various sizes are provided in the `/public/favicons/` directory.
 
 ## 📄 License
 
