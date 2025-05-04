@@ -40,7 +40,7 @@ export function Header() {
             className="relative h-10 w-10 sm:h-12 sm:w-12"
           >
             <Image
-              src="/logo.svg"
+              src="/logo-colored.svg"
               alt="Next Translator Logo"
               fill
               className="dark:invert-[0.85]"

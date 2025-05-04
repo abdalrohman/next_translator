@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Geist } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Header } from '@/components/ui/header'
@@ -21,6 +21,13 @@ const geistSans = Geist({
   adjustFontFallback: true, // Adjust the fallback font to match the metrics of the web font
 })
 
+export const viewport: Viewport = {
+  themeColor: '#4f46e5',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: {
@@ -41,6 +48,12 @@ export const metadata: Metadata = {
     email: false,
     address: false,
     telephone: false,
+  },
+  applicationName: appName,
+  appleWebApp: {
+    capable: true,
+    title: appName,
+    statusBarStyle: 'default',
   },
   openGraph: {
     type: 'website',
@@ -68,42 +81,41 @@ export const metadata: Metadata = {
     icon: [
       { url: '/favicons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicons/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/favicons/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
     ],
     shortcut: '/favicons/favicon.ico',
-    apple: [
-      {
-        url: '/favicons/favicon-192x192.png',
-        sizes: '192x192',
-        type: 'image/png',
-      },
-    ],
+    apple: [{ url: '/favicons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
     other: [
       {
         url: '/favicons/favicon-192x192.png',
         sizes: '192x192',
         type: 'image/png',
-        rel: 'apple-touch-icon',
       },
       {
-        url: '/favicons/favicon-256x256.png',
-        sizes: '256x256',
+        url: '/favicons/favicon-192x192-maskable.png',
+        sizes: '192x192',
         type: 'image/png',
-      },
-      {
-        url: '/favicons/favicon-384x384.png',
-        sizes: '384x384',
-        type: 'image/png',
+        rel: 'maskable-icon',
       },
       {
         url: '/favicons/favicon-512x512.png',
         sizes: '512x512',
         type: 'image/png',
-        rel: 'apple-touch-startup-image',
+      },
+      {
+        url: '/favicons/favicon-512x512-maskable.png',
+        sizes: '512x512',
+        type: 'image/png',
+        rel: 'maskable-icon',
       },
     ],
   },
   manifest: '/manifest.json',
+  alternates: {
+    types: {
+      'application/manifest+json': '/manifest.json',
+    },
+  },
 }
 
 export default function RootLayout({
