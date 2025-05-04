@@ -9,6 +9,10 @@
 
 A modern Next.js application for translating text between multiple languages using the power of Google's Gemini AI model. Built with Next.js 15, Shadcn/UI, and LangChain for seamless AI integration.
 
+<div align="center">
+  <img src="./public/screenshot.png" alt="Next Translator Screenshot" width="800" />
+</div>
+
 ## 🌟 Key Features
 
 - **Powerful Translation**: Translate text between 20+ languages with high accuracy using Google's Gemini AI
@@ -134,6 +138,19 @@ Before you begin, ensure you have the following installed:
    - Toggle between light and dark modes using the theme switcher in the header
    - Your theme preference is saved between sessions
    - Automatically respects your system's theme preference by default
+
+## 📸 Screenshots
+
+<details>
+<summary>Click to view more screenshots</summary>
+
+### Main Interface
+
+![Next Translator Main Interface](./public/screenshot.png)
+
+The main interface showcases the clean, modern design with.
+
+</details>
 
 ## 🤝 Contributing
 
