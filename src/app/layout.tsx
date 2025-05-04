@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${defaultUrl}/og-image.png`,
-        width: 1200,
+        width: 1260,
         height: 630,
         alt: appName,
       },
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: appName,
     description: appDescription,
-    images: [`${defaultUrl}/og-image.png`],
+    images: [`${defaultUrl}/twitter-image.png`],
   },
   icons: {
     icon: [
