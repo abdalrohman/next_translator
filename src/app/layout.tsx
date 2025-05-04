@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
+import { Analytics } from '@vercel/analytics/react'
 import { Header } from '@/components/ui/header'
 import { Footer } from '@/components/ui/footer'
 import './globals.css'
@@ -146,6 +147,7 @@ export default function RootLayout({
             </div>
           </div>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
