@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { SUPPORTED_LANGUAGES, getLanguageByCode } from '@/lib/languages'
 import {
   Select,
@@ -45,6 +45,25 @@ export function LanguageSelector({
   // Get language objects
   const sourceLanguageObj = getLanguageByCode(sourceLanguage)
   const targetLanguageObj = getLanguageByCode(targetLanguage)
+
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl/Cmd + Shift + S to swap languages
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'S') {
+        e.preventDefault()
+        if (!disabled) {
+          handleSwapLanguages()
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [sourceLanguage, targetLanguage, disabled])
 
   return (
     <div className="flex items-center gap-2 md:gap-4">

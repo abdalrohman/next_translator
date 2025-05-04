@@ -103,21 +103,31 @@ export function TranslatorInterface() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <motion.div
+      className="flex flex-col gap-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="translator" className="gap-2">
+        <TabsList className="grid w-full grid-cols-2 rounded-xl">
+          <TabsTrigger value="translator" className="gap-2 rounded-l-lg">
             <Languages className="h-4 w-4" />
             <span>Translator</span>
           </TabsTrigger>
-          <TabsTrigger value="history" className="gap-2">
+          <TabsTrigger value="history" className="gap-2 rounded-r-lg">
             <History className="h-4 w-4" />
             <span>History</span>
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="translator" className="mt-4">
-          <div className="flex flex-col gap-6">
+        <TabsContent value="translator" className="mt-6">
+          <motion.div
+            className="flex flex-col gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             <LanguageSelector
               sourceLanguage={sourceLanguage}
               targetLanguage={targetLanguage}
@@ -147,18 +157,24 @@ export function TranslatorInterface() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-destructive/15 text-destructive rounded-lg p-4"
+                className="bg-destructive/15 text-destructive rounded-lg p-4 shadow-sm"
               >
                 <p className="font-medium">Error: {error}</p>
               </motion.div>
             )}
-          </div>
+          </motion.div>
         </TabsContent>
 
-        <TabsContent value="history" className="mt-4">
-          <HistoryPanel onSelectHistoryItem={handleSelectHistoryItem} />
+        <TabsContent value="history" className="mt-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <HistoryPanel onSelectHistoryItem={handleSelectHistoryItem} />
+          </motion.div>
         </TabsContent>
       </Tabs>
-    </div>
+    </motion.div>
   )
 }

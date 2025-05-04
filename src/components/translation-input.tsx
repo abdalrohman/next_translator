@@ -133,29 +133,69 @@ export function TranslationInput({
     }
   }, [])
 
-  return (
-    <div className="relative flex flex-col gap-2">
-      <Textarea
-        ref={textareaRef}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className={`min-h-[200px] resize-none p-4 text-base ${
-          isOverLimit ? 'border-red-500 focus-visible:ring-red-500' : ''
-        }`}
-        disabled={isTranslating}
-      />
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl/Cmd + Enter to translate
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault()
+        if (value && !isTranslating && !isOverLimit) {
+          onTranslate()
+        }
+      }
 
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      // Escape to clear input
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        if (value && !isTranslating) {
+          onClear()
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [value, isTranslating, isOverLimit, onTranslate, onClear])
+
+  return (
+    <div className="relative flex flex-col gap-3">
+      <div className="relative overflow-hidden rounded-lg border shadow-sm transition-all hover:shadow-md">
+        <Textarea
+          ref={textareaRef}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className={`min-h-[200px] resize-none p-4 text-base shadow-inner ${
+            isOverLimit ? 'border-red-500 focus-visible:ring-red-500' : ''
+          }`}
+          disabled={isTranslating}
+        />
+
+        {isListening && (
+          <motion.div
+            className="bg-primary/10 text-primary absolute right-2 bottom-2 rounded-full px-3 py-1 text-xs font-medium"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+          >
+            Listening...
+          </motion.div>
+        )}
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {/* Speech recognition button */}
           {isRecognitionSupported && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={toggleSpeechRecognition}
               disabled={isTranslating}
-              className={`rounded-full ${isListening ? 'bg-primary/20' : ''}`}
+              className={`rounded-full transition-all ${isListening ? 'bg-primary/10 text-primary border-primary/30' : ''}`}
               aria-label={isListening ? 'Stop listening' : 'Start speech recognition'}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -166,16 +206,20 @@ export function TranslationInput({
                   exit={{ scale: 0.8, opacity: 0 }}
                   transition={{ duration: 0.15 }}
                 >
-                  {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                  {isListening ? (
+                    <MicOff className="mr-1 h-4 w-4" />
+                  ) : (
+                    <Mic className="mr-1 h-4 w-4" />
+                  )}
                 </motion.div>
               </AnimatePresence>
-              <span className="ml-2">{isListening ? 'Stop' : 'Speak'}</span>
+              <span>{isListening ? 'Stop' : 'Speak'}</span>
             </Button>
           )}
 
           {/* Copy button */}
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={copyToClipboard}
             disabled={!value || isTranslating}
@@ -189,6 +233,7 @@ export function TranslationInput({
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ duration: 0.15 }}
+                className="mr-1"
               >
                 {copied ? (
                   <Check className="h-4 w-4 text-green-500" />
@@ -197,20 +242,20 @@ export function TranslationInput({
                 )}
               </motion.div>
             </AnimatePresence>
-            <span className="ml-2">{copied ? 'Copied' : 'Copy'}</span>
+            <span>{copied ? 'Copied' : 'Copy'}</span>
           </Button>
 
           {/* Clear button */}
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={onClear}
             disabled={!value || isTranslating}
             className="rounded-full"
             aria-label="Clear text"
           >
-            <X className="h-4 w-4" />
-            <span className="ml-2">Clear</span>
+            <X className="mr-1 h-4 w-4" />
+            <span>Clear</span>
           </Button>
         </div>
 
@@ -224,10 +269,25 @@ export function TranslationInput({
       <Button
         onClick={onTranslate}
         disabled={!value || isTranslating || isOverLimit}
-        className="mt-2"
+        className="mt-1 rounded-lg"
+        size="lg"
       >
-        {isTranslating ? 'Translating...' : 'Translate'}
+        {isTranslating ? (
+          <span className="flex items-center gap-2">
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+            Translating...
+          </span>
+        ) : (
+          'Translate'
+        )}
       </Button>
+
+      {/* Keyboard shortcut hint */}
+      <div className="text-muted-foreground mt-1 text-center text-xs">
+        Press{' '}
+        <kbd className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs">Ctrl/Cmd + Enter</kbd> to
+        translate
+      </div>
     </div>
   )
 }

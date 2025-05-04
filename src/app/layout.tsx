@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
+import { Header } from '@/components/ui/header'
+import { Footer } from '@/components/ui/footer'
 import './globals.css'
 
 const appName = 'Next Translator'
@@ -119,13 +121,17 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex min-h-screen flex-col">
-            {/* Header */}
+            <div className="mx-auto w-full max-w-7xl px-4 md:px-6">
+              <Header />
+            </div>
             <main className="flex-1" id="main-content">
-              <div className="mx-auto w-full max-w-7xl px-4 py-8 md:px-6 md:py-12 lg:py-16">
+              <div className="mx-auto w-full max-w-7xl px-4 py-4 md:px-6 md:py-8 lg:py-12">
                 {children}
               </div>
             </main>
-            {/* Footer */}
+            <div className="mx-auto w-full max-w-7xl px-4 md:px-6">
+              <Footer />
+            </div>
           </div>
         </ThemeProvider>
       </body>
