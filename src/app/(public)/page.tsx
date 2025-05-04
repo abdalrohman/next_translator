@@ -1,5 +1,4 @@
 import { TranslatorInterface } from '@/components/translator-interface'
-import { motion } from 'framer-motion'
 
 export default function Home() {
   return (

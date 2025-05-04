@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Copy, Check, VolumeX, Volume2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -23,7 +23,7 @@ export function TranslationOutput({ text, language, isLoading = false }: Transla
   }, [])
 
   // Copy text to clipboard
-  const copyToClipboard = async () => {
+  const copyToClipboard = useCallback(async () => {
     if (!text) return
 
     try {
@@ -37,10 +37,10 @@ export function TranslationOutput({ text, language, isLoading = false }: Transla
     } catch (error) {
       console.error('Failed to copy text:', error)
     }
-  }
+  }, [text])
 
   // Speak the translated text
-  const speakText = () => {
+  const speakText = useCallback(() => {
     if (!text || !isSpeechSupported) return
 
     // Stop any ongoing speech
@@ -59,15 +59,15 @@ export function TranslationOutput({ text, language, isLoading = false }: Transla
 
     // Speak the text
     window.speechSynthesis.speak(utterance)
-  }
+  }, [text, language, isSpeechSupported])
 
   // Stop speaking
-  const stopSpeaking = () => {
+  const stopSpeaking = useCallback(() => {
     if (isSpeechSupported) {
       window.speechSynthesis.cancel()
       setIsSpeaking(false)
     }
-  }
+  }, [isSpeechSupported])
 
   // Clean up speech synthesis when component unmounts
   useEffect(() => {
@@ -107,7 +107,7 @@ export function TranslationOutput({ text, language, isLoading = false }: Transla
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [text, isLoading, isSpeaking, isSpeechSupported])
+  }, [text, isLoading, isSpeaking, isSpeechSupported, copyToClipboard, speakText, stopSpeaking])
 
   return (
     <div className="flex flex-col gap-3">

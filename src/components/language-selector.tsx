@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { SUPPORTED_LANGUAGES, getLanguageByCode } from '@/lib/languages'
 import {
   Select,
@@ -31,7 +31,7 @@ export function LanguageSelector({
   const [isSwapping, setIsSwapping] = useState(false)
 
   // Swap source and target languages
-  const handleSwapLanguages = () => {
+  const handleSwapLanguages = useCallback(() => {
     setIsSwapping(true)
     onSourceLanguageChange(targetLanguage)
     onTargetLanguageChange(sourceLanguage)
@@ -40,7 +40,7 @@ export function LanguageSelector({
     setTimeout(() => {
       setIsSwapping(false)
     }, 500)
-  }
+  }, [targetLanguage, sourceLanguage, onSourceLanguageChange, onTargetLanguageChange])
 
   // Get language objects
   const sourceLanguageObj = getLanguageByCode(sourceLanguage)
@@ -63,7 +63,7 @@ export function LanguageSelector({
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [sourceLanguage, targetLanguage, disabled])
+  }, [sourceLanguage, targetLanguage, disabled, handleSwapLanguages])
 
   return (
     <div className="flex items-center gap-2 md:gap-4">
