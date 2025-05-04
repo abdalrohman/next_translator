@@ -1,0 +1,16 @@
+{
+  "name": "Next Translator",
+  "short_name": "Translator",
+  "description": "Translate text between multiple languages using the power of Gemini AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicons/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
