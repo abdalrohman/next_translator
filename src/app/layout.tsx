@@ -8,10 +8,11 @@ import { Footer } from '@/components/ui/footer'
 import './globals.css'
 
 const appName = 'Next Translator'
+// Ensure we have a valid URL for metadata
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000'
-const appDescription = 'Next Translator application.'
+  : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const appDescription = 'Translate text between multiple languages using the power of Gemini AI'
 
 // Configure Geist font with optimized loading strategy
 const geistSans = Geist({
@@ -32,6 +33,13 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
+  // Ensure canonical URL is set
+  alternates: {
+    canonical: '/',
+    types: {
+      'application/manifest+json': '/manifest.json',
+    },
+  },
   title: {
     default: appName,
     template: `%s | ${appName}`,
@@ -77,7 +85,16 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: appName,
     description: appDescription,
-    images: [`${defaultUrl}/twitter-image.png`],
+    creator: '@NextTranslator',
+    site: '@NextTranslator',
+    images: [
+      {
+        url: `${defaultUrl}/twitter-image.png`,
+        width: 1260,
+        height: 630,
+        alt: appName,
+      },
+    ],
   },
   icons: {
     icon: [
@@ -113,11 +130,6 @@ export const metadata: Metadata = {
     ],
   },
   manifest: '/manifest.json',
-  alternates: {
-    types: {
-      'application/manifest+json': '/manifest.json',
-    },
-  },
 }
 
 export default function RootLayout({
