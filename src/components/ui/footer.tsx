@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Heart } from 'lucide-react'
+import { Heart, Code } from 'lucide-react'
+import Link from 'next/link'
 
 export function Footer() {
   return (
@@ -16,6 +17,17 @@ export function Footer() {
           <span>Built with</span>
           <Heart className="h-4 w-4 text-red-500" />
           <span>using Next.js, Shadcn/UI, and Langchain</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link
+            href="https://github.com/abdalrohman/next_translator"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5 text-sm"
+          >
+            <Code className="h-4 w-4" />
+            <span>GitHub</span>
+          </Link>
         </div>
         <div className="text-muted-foreground text-xs">
           &copy; {new Date().getFullYear()} Next Translator
